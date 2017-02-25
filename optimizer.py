@@ -18,41 +18,46 @@ def main():
     with open(args.file) as f:
         config = toml.loads(f.read())
 
-    base_cost, cost_with_mk, mk_cost = process_config(config)
-    total_mk = cost_with_mk + mk_cost
+    base_cost, mk_totals = process_config(config)
 
-    print('Base:\t{} AP'.format(base_cost))
-    print('MK:\t{} AP ({} + {})'.format(total_mk, cost_with_mk, mk_cost))
-    print('Saved:\t{} AP'.format(base_cost - total_mk))
+    print('{:>10}: {} AP'.format('Base', base_cost))
+    for mk_name, mk_total in mk_totals.items():
+        saved = mk_total - base_cost
 
-    rec_str = 'Recommendation: '
-    if total_mk < base_cost:
-        rec_str += Fore.GREEN + 'BUY'
-    else:
-        rec_str += Fore.GREEN + 'DON\'T BUY'
+        if mk_total < base_cost:
+            rec_str = Fore.GREEN + 'YES'
+        else:
+            rec_str = Fore.RED + 'NO'
 
-    print(rec_str)
+        print('{:>10}: {} AP ({}) => {}'.format(mk_name, mk_total, saved, rec_str))
 
 def process_config(config):
     costs = read_costs()
     skills = config['skills']
-    mk_cost = config['cost']
     factor = config['factor']
 
-    base_cost = calculate_cost_for_skills(costs, skills, factor, 0)
-    cost_with_mk = calculate_cost_for_skills(costs, skills, factor, -1)
+    base_cost = calculate_cost_for_skills(costs, skills, factor, 0, None)
 
-    return base_cost, cost_with_mk, mk_cost
+    mk_totals = {}
+    for mk in config['mks']:
+        mk_cost = mk['cost']
+        name = mk['name']
+        cost_with_mk = calculate_cost_for_skills(costs, skills, factor, -1, name)
+        total = mk_cost + cost_with_mk
+        mk_totals[name] = total
+
+    return base_cost, mk_totals
 
 
-def calculate_cost_for_skills(costs, skills, factor, offset):
+def calculate_cost_for_skills(costs, skills, factor, offset, mk):
     total = 0
 
     for skill in skills:
         from_val = skill['from']
         to_val = skill['to']
-        col = skill['column']
-        actual_col = shift_column(col, offset)
+        actual_col = skill['column']
+        if mk in skill['mks']:
+            actual_col = shift_column(actual_col, offset)
         cost = get_cost(costs, actual_col, from_val, to_val, factor)
         total += cost
 
