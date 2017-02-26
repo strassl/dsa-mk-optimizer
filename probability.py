@@ -3,6 +3,15 @@ MAX_D = 20
 
 PROB_SPACE_SIZE = 8000
 
+def expected_tap(attrs, taw, handicap):
+    space = event_space(attrs, taw, handicap)
+
+    result_tap = 0
+    for tap in range(0, max(taw, 1) + 1):
+        result_tap += tap * space[tap]
+
+    return result_tap / PROB_SPACE_SIZE
+    
 def probability(tap, attrs, taw, handicap):
     space = event_space(attrs, taw, handicap)
     if tap < len(space):
