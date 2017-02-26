@@ -1,0 +1,155 @@
+[[attrs]]
+name='MU'
+value=13
+
+[[attrs]]
+name='KL'
+value=14
+
+[[attrs]]
+name='IN'
+value=14
+
+[[attrs]]
+name='CH'
+value=14
+
+[[attrs]]
+name='FF'
+value=12
+
+[[attrs]]
+name='GE'
+value=11
+
+[[attrs]]
+name='KO'
+value=13
+
+[[attrs]]
+name='KK'
+value=10
+
+[[skills]]
+name='Analys'
+attrs=['KL', 'KL', 'IN']
+
+[[skills]]
+name='Animatio'
+attrs=['KL', 'FF', 'GE']
+
+[[skills]]
+name='Armatrutz'
+attrs=['IN', 'GE', 'KO']
+
+[[skills]]
+name='Attributo'
+attrs=['KL', 'CH', '*']
+
+[[skills]]
+name='Auris Nasus Oculus'
+attrs=['KL', 'CH', 'FF']
+
+[[skills]]
+name='Axxeleratus'
+attrs=['KL', 'GE', 'KO']
+
+[[skills]]
+name='Balsam'
+attrs=['KL', 'IN', 'CH']
+
+[[skills]]
+name='Bannbaladin'
+attrs=['IN', 'CH', 'CH']
+
+[[skills]]
+name='Bewegung stoeren'
+attrs=['KL', 'IN', 'FF']
+
+[[skills]]
+name='Blitz'
+attrs=['KL', 'IN', 'GE']
+
+[[skills]]
+name='Duplicatus'
+attrs=['KL', 'CH', 'GE']
+
+[[skills]]
+name='Favilludo'
+attrs=['IN', 'CH', 'FF']
+
+[[skills]]
+name='Firnlauf'
+attrs=['MU', 'KL', 'GE']
+
+[[skills]]
+name='Flim Flam'
+attrs=['KL', 'KL', 'FF']
+
+[[skills]]
+name='Foramen'
+attrs=['KL', 'KL', 'FF']
+
+[[skills]]
+name='Gardianum'
+attrs=['KL', 'IN', 'KO']
+
+[[skills]]
+name='Gedankenbilder'
+attrs=['KL', 'IN', 'CH']
+
+[[skills]]
+name='Illu aufloessen'
+attrs=['KL', 'IN', 'CH']
+
+[[skills]]
+name='Klarum Purum'
+attrs=['KL', 'KL', 'CH']
+
+[[skills]]
+name='Koerperlose Reise'
+attrs=['MU', 'KL', 'IN']
+
+[[skills]]
+name='Leib des Windes'
+attrs=['MU', 'GE', 'KK']
+
+[[skills]]
+name='Manifesto'
+attrs=['KL', 'IN', 'CH']
+
+[[skills]]
+name='Motoricus'
+attrs=['KL', 'FF', 'KK']
+
+[[skills]]
+name='Movimento'
+attrs=['IN', 'GE', 'KO']
+
+[[skills]]
+name='Odem'
+attrs=['KL', 'IN', 'IN']
+
+[[skills]]
+name='Reflectimago'
+attrs=['KL', 'CH', 'FF']
+
+[[skills]]
+name='Sapefacta'
+attrs=['KL', 'CH', 'FF']
+
+[[skills]]
+name='Sensibar'
+attrs=['KL', 'IN', 'CH']
+
+[[skills]]
+name='Transversalis'
+attrs=['KL', 'IN', 'KO']
+
+[[skills]]
+name='Unitatio'
+attrs=['IN', 'CH', 'KO']
+
+[[skills]]
+name='Vocolimbo'
+attrs=['KL', 'CH', 'FF']
