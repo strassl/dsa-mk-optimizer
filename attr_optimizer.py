@@ -13,8 +13,10 @@ COSTS = read_costs()
 def main():
     parser = argparse.ArgumentParser(description='Optimize choice of attribute improvement in DSA 4.1')
     parser.add_argument('file', type=str, help='name of file containing the skills to consider')
+    parser.add_argument('-w', '--weighted', dest='weighted', help='use weights for result', action='store_true')
 
     args = parser.parse_args()
+    weighted = args.weighted
 
     config = None
     with open(args.file) as f:
@@ -26,8 +28,12 @@ def main():
     tap_diffs = []
     for attr, result in attr_results.items():
         cost = result['cost']
-        tap_before = result['old']['tap']
-        tap_after = result['new']['tap']
+        if weighted:
+            tap_before = result['old']['tap_weighted']
+            tap_after = result['new']['tap_weighted']
+        else:
+            tap_before = result['old']['tap']
+            tap_after = result['new']['tap']
         tap_diff = tap_after - tap_before
         cost_to_tap_ratio = tap_diff / cost
         tap_ratios.append(cost_to_tap_ratio)
@@ -38,11 +44,16 @@ def main():
 
     for attr, result in sorted(attr_results.items(), key=lambda x: x[0]):
         cost = result['cost']
-        count = result['old']['count']
         val_before = result['old']['value']
         val_after = result['new']['value']
-        tap_before = result['old']['tap']
-        tap_after = result['new']['tap']
+        if weighted:
+            count = result['old']['weighted']
+            tap_before = result['old']['tap_weighted']
+            tap_after = result['new']['tap_weighted']
+        else:
+            count = result['old']['count']
+            tap_before = result['old']['tap']
+            tap_after = result['new']['tap']
         tap_diff = tap_after - tap_before
         cost_to_tap_ratio = tap_diff / cost
 
@@ -70,22 +81,17 @@ def main():
 
 
         print('{:>2} ({:>2} -> {:>2}): {:>3} => {:>7.2f} vs {:>7.2f} => {:>7.2f} for {:>4} ({:.4f}) {}'.format(attr, val_before, val_after, count, tap_before, tap_after, tap_diff, cost, cost_to_tap_ratio, suffix))
-        # if mk_total < base_cost:
-        #     rec_str = Fore.GREEN + 'YES'
-        # else:
-        #     rec_str = Fore.RED + 'NO'
-
-        # print('{:>10}: {:>6} AP {:>6} => {}'.format(mk_name, mk_total, saved, rec_str))
 
 def process_config(config):
     costs = read_costs()
     skills = config['skills']
-    attrs = config['attrs']
+    attrlist = config['attrs']
+    attrs = {}
+    for attr in attrlist:
+        attrs[attr['name']] = attr['value']
 
     attr_results = {}
-    for attr in attrs:
-        attr_name = attr['name']
-        attr_val = attr['value']
+    for attr_name, attr_val in attrs.items():
         result = calculate_result_for_attr(attr_name, attr_val, attrs, skills)
         attr_results[attr_name] = result
 
@@ -111,19 +117,32 @@ def calculate_result_for_attr_with_value(attr_name, attr_value, attrs, skills):
             total_count += 1
             total_weighted += skill['weight']
 
-        def aval(attr_name):
-            return get_attr_value(attr_name, attr_value, attr_name, attrs)
-        
-        attr_values = (aval(skill['attrs'][0]), aval(skill['attrs'][1]), aval(skill['attrs'][2]))
         taw = skill['taw']
-        tap = expected_tap(attr_values, taw, 0)
-        total_tap += tap
-        total_tap_weighted += tap * skill['weight']
+        base_attr_names = skill['attrs'][:3]
+        if '*' in base_attr_names:
+            for aname in attrs.keys():
+                attr_names = [aname if n == '*' else n for n in base_attr_names]
+                tap = calculate_tap(attr_names, attr_name, attr_value, attrs, taw)
+                total_tap += tap
+                total_tap_weighted += tap * skill['weight']
+        else:
+            tap = calculate_tap(base_attr_names, attr_name, attr_value, attrs, taw)
+            total_tap += tap
+            total_tap_weighted += tap * skill['weight']
 
-    return { 'value': attr_value, 'count': total_count, 'weighted': total_weighted, 'tap': total_tap, 'tap_weight': total_tap_weighted }
+
+    return { 'value': attr_value, 'count': total_count, 'weighted': total_weighted, 'tap': total_tap, 'tap_weighted': total_tap_weighted }
+
+def calculate_tap(attr_names, override_name, override_value, attrs, taw):
+    def aval(name):
+        return get_attr_value(override_name, override_value, name, attrs)
+
+    attr_values = (aval(attr_names[0]), aval(attr_names[1]), aval(attr_names[2]))
+    tap = expected_tap(attr_values, taw, 0)
+    return tap
 
 def get_attr_value(override_name, override_value, attr_name, attrs):
-    if attr_name == override_name or attr_name == '*':
+    if attr_name == override_name:
         return override_value
     else:
         return attrs[attr_name]
