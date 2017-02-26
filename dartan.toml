@@ -244,7 +244,7 @@ mks=['Hell']
 name='Transversalis'
 column='D'
 from=7
-to=12
+to=14
 mks=['Limb']
 
 [[skills]]

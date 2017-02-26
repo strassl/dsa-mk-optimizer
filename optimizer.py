@@ -20,8 +20,8 @@ def main():
 
     base_cost, mk_totals = process_config(config)
 
-    print('{:>10}: {} AP'.format('Base', base_cost))
-    for mk_name, mk_total in mk_totals.items():
+    print('{:>10}: {:>6} AP'.format('Base', base_cost))
+    for mk_name, mk_total in sorted(mk_totals.items(), key=lambda x: x[0]):
         saved = mk_total - base_cost
 
         if mk_total < base_cost:
@@ -29,7 +29,7 @@ def main():
         else:
             rec_str = Fore.RED + 'NO'
 
-        print('{:>10}: {} AP ({}) => {}'.format(mk_name, mk_total, saved, rec_str))
+        print('{:>10}: {:>6} AP {:>6} => {}'.format(mk_name, mk_total, saved, rec_str))
 
 def process_config(config):
     costs = read_costs()
@@ -38,8 +38,9 @@ def process_config(config):
 
     base_cost = calculate_cost_for_skills(costs, skills, factor, 0, None)
 
+    mks = config['mks']
     mk_totals = {}
-    for mk in config['mks']:
+    for mk in mks:
         mk_cost = mk['cost']
         name = mk['name']
         cost_with_mk = calculate_cost_for_skills(costs, skills, factor, -1, name)
@@ -99,7 +100,7 @@ def get_cost(costs, column, from_value, to_value, factor=1.0):
     total = 0
     for i in range(from_value, to_value):
         index = i+1
-        index = min(index, len(costs)-1) 
+        index = min(index, len(costs)-1)
         index = max(index, 0)
         cost = costs[index][col_to_index[column]]
         cost = int(round(cost * factor))
