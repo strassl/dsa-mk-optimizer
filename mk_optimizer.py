@@ -3,7 +3,7 @@ import argparse
 import toml
 import colorama
 from colorama import Fore
-from cost_calculator import columns, read_costs, get_cost, shift_column
+from cost import columns, read_costs, get_cost, shift_column
 
 colorama.init(autoreset=True)
 

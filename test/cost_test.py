@@ -1,4 +1,4 @@
-from cost_calculator import *
+from cost import *
 import numpy as np
 
 costs = read_costs()
