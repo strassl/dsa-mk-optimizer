@@ -33,123 +33,154 @@ value=10
 [[skills]]
 name='Analys'
 attrs=['KL', 'KL', 'IN']
+weight=1.0
 
 [[skills]]
 name='Animatio'
 attrs=['KL', 'FF', 'GE']
+weight=1.0
 
 [[skills]]
 name='Armatrutz'
 attrs=['IN', 'GE', 'KO']
+weight=1.0
 
 [[skills]]
 name='Attributo'
 attrs=['KL', 'CH', '*']
+weight=1.0
 
 [[skills]]
 name='Auris Nasus Oculus'
 attrs=['KL', 'CH', 'FF']
+weight=1.0
 
 [[skills]]
 name='Axxeleratus'
 attrs=['KL', 'GE', 'KO']
+weight=1.0
 
 [[skills]]
 name='Balsam'
 attrs=['KL', 'IN', 'CH']
+weight=1.0
 
 [[skills]]
 name='Bannbaladin'
 attrs=['IN', 'CH', 'CH']
+weight=0.5
 
 [[skills]]
 name='Bewegung stoeren'
 attrs=['KL', 'IN', 'FF']
+weight=0.5
 
 [[skills]]
 name='Blitz'
 attrs=['KL', 'IN', 'GE']
+weight=1.0
 
 [[skills]]
 name='Duplicatus'
 attrs=['KL', 'CH', 'GE']
+weight=1.0
 
 [[skills]]
 name='Favilludo'
 attrs=['IN', 'CH', 'FF']
+weight=1.0
 
 [[skills]]
 name='Firnlauf'
 attrs=['MU', 'KL', 'GE']
+weight=0.0
 
 [[skills]]
 name='Flim Flam'
 attrs=['KL', 'KL', 'FF']
+weight=0.5
 
 [[skills]]
 name='Foramen'
 attrs=['KL', 'KL', 'FF']
+weight=0.5
 
 [[skills]]
 name='Gardianum'
 attrs=['KL', 'IN', 'KO']
+weight=1.0
 
 [[skills]]
 name='Gedankenbilder'
 attrs=['KL', 'IN', 'CH']
+weight=0.5
 
 [[skills]]
 name='Illu aufloessen'
 attrs=['KL', 'IN', 'CH']
+weight=0.5
 
 [[skills]]
 name='Klarum Purum'
 attrs=['KL', 'KL', 'CH']
+weight=0.5
 
 [[skills]]
 name='Koerperlose Reise'
 attrs=['MU', 'KL', 'IN']
+weight=1.0
 
 [[skills]]
 name='Leib des Windes'
 attrs=['MU', 'GE', 'KK']
+weight=0.0
 
 [[skills]]
 name='Manifesto'
 attrs=['KL', 'IN', 'CH']
+weight=0.5
 
 [[skills]]
 name='Motoricus'
 attrs=['KL', 'FF', 'KK']
+weight=1.0
 
 [[skills]]
 name='Movimento'
 attrs=['IN', 'GE', 'KO']
+weight=0.5
 
 [[skills]]
 name='Odem'
 attrs=['KL', 'IN', 'IN']
+weight=1.0
 
 [[skills]]
 name='Reflectimago'
 attrs=['KL', 'CH', 'FF']
+weight=1.0
 
 [[skills]]
 name='Sapefacta'
 attrs=['KL', 'CH', 'FF']
+weight=1.0
 
 [[skills]]
 name='Sensibar'
 attrs=['KL', 'IN', 'CH']
+weight=0.0
 
 [[skills]]
 name='Transversalis'
 attrs=['KL', 'IN', 'KO']
+weight=1.0
 
 [[skills]]
 name='Unitatio'
 attrs=['IN', 'CH', 'KO']
+weight=0.0
 
 [[skills]]
 name='Vocolimbo'
 attrs=['KL', 'CH', 'FF']
+weight=1.0

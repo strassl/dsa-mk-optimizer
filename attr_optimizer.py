@@ -36,10 +36,13 @@ def process_config(config):
 
 def calculate_result_for_attr(attr, skills):
     count = 0
+    value = 0
     for skill in skills:
         if attr in skill['attrs'] or '*' in skill['attrs']:
             count += 1
-    return count
+            value += skill['weight']
+
+    return { 'count': count, 'value': value }
 
 
 if __name__ == '__main__':
