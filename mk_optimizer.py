@@ -20,7 +20,10 @@ def main():
     base_cost, mk_totals = process_config(config)
 
     print('{:>10}: {:>6} AP'.format('Base', base_cost))
-    for mk_name, mk_total in sorted(mk_totals.items(), key=lambda x: x[0]):
+    for mk_name, mk_total_info in sorted(mk_totals.items(), key=lambda x: x[0]):
+        mk_total = mk_total_info[0]
+        mk_skill_total = mk_total_info[1]
+        mk_cost = mk_total_info[2]
         saved = mk_total - base_cost
 
         if mk_total < base_cost:
@@ -28,7 +31,7 @@ def main():
         else:
             rec_str = Fore.RED + 'NO'
 
-        print('{:>10}: {:>6} AP {:>6} => {}'.format(mk_name, mk_total, saved, rec_str))
+        print('{:>10}: {:>6} ({:>6} + {:>3}) AP {:>6} => {}'.format(mk_name, mk_total, mk_skill_total, mk_cost, saved, rec_str))
 
 def process_config(config):
     costs = read_costs()
@@ -44,7 +47,7 @@ def process_config(config):
         name = mk['name']
         cost_with_mk = calculate_cost_for_skills(costs, skills, factor, -1, name)
         total = mk_cost + cost_with_mk
-        mk_totals[name] = total
+        mk_totals[name] = (total, cost_with_mk, mk_cost)
 
     return base_cost, mk_totals
 
