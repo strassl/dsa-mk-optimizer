@@ -75,11 +75,11 @@ def parse(data):
                 attributes[attr_name] = value
 
         skills = []
-        for talent in held.find_all('talent'):
+        for talent in held.find('talentliste').find_all('talent'):
             skill = parse_skill(talent)
             skills.append(skill)
 
-        for zauber in held.find_all('zauber'):
+        for zauber in held.find('zauberliste').find_all('zauber'):
             skill = parse_skill(zauber, is_spell=True)
             skills.append(skill)
 

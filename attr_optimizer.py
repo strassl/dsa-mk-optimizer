@@ -84,7 +84,7 @@ def main():
         suffix += Fore.RESET
 
 
-        print('{:>2} ({:>2} -> {:>2}): {:>3} => {:>7.2f} vs {:>7.2f} => {:>7.2f} for {:>4} ({:.4f}) {}'.format(attr, val_before, val_after, count, tap_before, tap_after, tap_diff, cost, cost_to_tap_ratio, suffix))
+        print('{:>2} ({:>2} -> {:>2}): {:>7.2f} => {:>7.2f} vs {:>7.2f} => {:>7.2f} for {:>4} ({:.4f}) {}'.format(attr, val_before, val_after, count, tap_before, tap_after, tap_diff, cost, cost_to_tap_ratio, suffix))
 
 def held_to_config(held):
     config = {}
@@ -139,7 +139,8 @@ def calculate_result_for_attr_with_value(attr_name, attr_value, attrs, skills):
     total_tap = 0
     total_tap_weighted = 0
     for skill in skills:
-        weight = 1.0 if skill.get('weight') is None else skill['weight']
+        weight = get_weight_for_skill(skill)
+
         if attr_name in skill['attrs'] or '*' in skill['attrs']:
             total_count += 1
             total_weighted += weight
@@ -170,6 +171,14 @@ def calculate_tap(attr_names, override_name, override_value, attrs, taw):
     attr_values = (aval(attr_names[0]), aval(attr_names[1]), aval(attr_names[2]))
     tap = get_expected_tap(attr_values, taw, 0)
     return tap
+
+def get_weight_for_skill(skill):
+    taw = skill['taw']
+    # x^2/(40+x^2)
+    # http://www.wolframalpha.com/input/?i=x%5E2%2F(40%2Bx%5E2)+from+0+to+20
+    tawsq = taw * taw
+    w = tawsq / (40 + tawsq)
+    return w
 
 @lru_cache(maxsize=None)
 def get_expected_tap(attr_values, taw, handicap):
