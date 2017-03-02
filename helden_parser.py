@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup
 from cost import shift_column
-from helden_data import SpellTrait, get_traits
+from helden_data import SpellTrait, get_traits, get_complexity_for_skill
 
 core_attr_long_to_short = {
     'Mut': 'MU',
@@ -99,6 +99,7 @@ def parse_skill(element, is_spell=False):
         traits = get_traits(talent_name)
         skill = Spell(talent_name, talent_column, talent_value, talent_check_attrs, traits)
     else:
-        talent_column = '?' # TODO
+        complexity = get_complexity_for_skill(talent_name)
+        talent_column = '?' if complexity is None else complexity
         skill = Skill(talent_name, talent_column, talent_value, talent_check_attrs)
     return skill
