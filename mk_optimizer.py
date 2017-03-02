@@ -3,19 +3,25 @@ import argparse
 import toml
 import colorama
 from colorama import Fore
+from helden_parser import parse, Spell, SpellTrait
 from cost import columns, read_costs, get_cost, shift_column
 
 colorama.init(autoreset=True)
 
 def main():
     parser = argparse.ArgumentParser(description='Optimize choice of MK in DSA 4.1')
-    parser.add_argument('file', type=str, help='name of file containing the skills to consider')
+    parser.add_argument('-f', '--file', type=str, dest='file', help='name of file containing the skills to consider')
+    parser.add_argument('--held', type=str, dest='held', help='helden software file')
 
     args = parser.parse_args()
 
-    config = None
     with open(args.file) as f:
         config = toml.loads(f.read())
+
+    if args.held is not None:
+        with open(args.held) as f:
+            held = parse(f.read())[0]
+            config = held_to_config(config, held)
 
     base_cost, mk_totals = process_config(config)
 
@@ -32,6 +38,21 @@ def main():
             rec_str = Fore.RED + 'NO'
 
         print('{:>10}: {:>6} ({:>6} + {:>3}) AP {:>6} => {}'.format(mk_name, mk_total, mk_skill_total, mk_cost, saved, rec_str))
+
+
+def held_to_config(config, held):
+    config_spells = { s['name']: s for s in config['skills'] }
+    for skill in held.skills:
+        if isinstance(skill, Spell):
+            cspell = config_spells.get(skill.name)
+            if cspell is not None:
+                cspell['attrs'] = skill.attributes
+                cspell['from'] = skill.value
+                cspell['mks'] = list(map(lambda x: str(x), skill.traits))
+
+    config['skills'] = list(config_spells.values())
+    return config
+
 
 def process_config(config):
     costs = read_costs()

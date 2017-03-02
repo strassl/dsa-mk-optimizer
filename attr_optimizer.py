@@ -6,6 +6,7 @@ from colorama import Fore
 from cost import read_costs, get_cost, shift_column
 from probability import expected_tap
 from helden_parser import parse
+from weights import get_weight_for_skill
 from functools import lru_cache
 
 colorama.init(autoreset=True)
@@ -171,14 +172,6 @@ def calculate_tap(attr_names, override_name, override_value, attrs, taw):
     attr_values = (aval(attr_names[0]), aval(attr_names[1]), aval(attr_names[2]))
     tap = get_expected_tap(attr_values, taw, 0)
     return tap
-
-def get_weight_for_skill(skill):
-    taw = skill['taw']
-    # x^2/(40+x^2)
-    # http://www.wolframalpha.com/input/?i=x%5E2%2F(40%2Bx%5E2)+from+0+to+20
-    tawsq = taw * taw
-    w = tawsq / (40 + tawsq)
-    return w
 
 @lru_cache(maxsize=None)
 def get_expected_tap(attr_values, taw, handicap):
