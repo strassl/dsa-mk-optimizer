@@ -74,7 +74,7 @@ def parse(data):
                 value = int(attr.attrs['value'])
                 attributes[attr_name] = value
 
-        skills = [] 
+        skills = []
         for talent in held.find_all('talent'):
             skill = parse_skill(talent)
             skills.append(skill)
@@ -92,7 +92,7 @@ def parse_skill(element, is_spell=False):
     talent_name = element.attrs['name']
     talent_check_str = element.attrs['probe']
     talent_value = int(element.attrs['value'])
-    talent_check_attrs = talent_check_str.strip().split('/')
+    talent_check_attrs = talent_check_str.strip().replace('(', '').replace(')', '').split('/')
     if is_spell:
         talent_column = element.attrs['k']
         is_house_spell = bool(element.attrs['hauszauber'])
